@@ -37,7 +37,7 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 .review-nav button { background:transparent; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.7); padding:8px 20px; border-radius:8px; font-family:'Raleway',Helvetica,Arial,sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.25s; text-transform:uppercase; letter-spacing:0.8px; }
 .review-nav button:hover { border-color:#f5a632; color:#f5a632; }
 .review-nav button.active { background:#f5a632; color:#011c3a; border-color:#f5a632; }
-.review-page { display:none; padding-top:56px; }
+.review-page { display:none; }
 .review-page.active { display:block; }
 /* ===== SHARED AWARDS CSS ===== */
 .hero-slice-desktop { flex:1 1 0; min-width:0; transition:flex-grow 1s cubic-bezier(0.22,1,0.36,1); }
@@ -57,6 +57,37 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 .awards-subnav-item:hover .awards-subnav-dropdown { display:block; }
 .awards-subnav-dropdown a { display:block; padding:12px 24px; color:rgba(255,255,255,0.8); text-decoration:none; font-size:var(--fs-meta); transition:all 0.2s; border-left:3px solid transparent; }
 .awards-subnav-dropdown a:hover { color:#f5a632; background:rgba(245,166,50,0.08); border-left-color:#f5a632; padding-left:28px; }
+/* ===== BURGER MENU ===== */
+.burger-wrap { position:relative; }
+.burger-btn { display:flex; flex-direction:column; justify-content:center; align-items:center; gap:5px; width:44px; height:44px; background:transparent; border:1px solid rgba(255,255,255,0.25); border-radius:8px; cursor:pointer; padding:0; transition:all 0.25s; }
+.burger-btn:hover { border-color:#f5a632; background:rgba(245,166,50,0.08); }
+.burger-btn span { display:block; width:20px; height:2px; background:#fff; border-radius:2px; transition:all 0.3s; }
+.burger-btn.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); background:#f5a632; }
+.burger-btn.open span:nth-child(2) { opacity:0; }
+.burger-btn.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); background:#f5a632; }
+.burger-panel { display:none; position:absolute; top:calc(100% + 8px); left:0; width:340px; max-width:85vw; max-height:75vh; overflow-y:auto; background:#011c3a; border:1px solid rgba(245,166,50,0.3); border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,0.5); z-index:500; padding:10px 0; }
+.burger-panel.open { display:block; animation:burgerSlide 0.25s ease; }
+@keyframes burgerSlide { from{opacity:0;transform:translateY(-10px);} to{opacity:1;transform:translateY(0);} }
+.burger-group { border-bottom:1px solid rgba(255,255,255,0.08); }
+.burger-group:last-child { border-bottom:none; }
+.burger-group-toggle { display:flex; align-items:center; justify-content:space-between; width:100%; padding:16px 22px; background:transparent; border:none; color:#fff; font-family:var(--font-body); font-size:var(--fs-meta); font-weight:700; letter-spacing:0.5px; cursor:pointer; text-align:left; transition:all 0.2s; }
+.burger-group-toggle:hover { color:#f5a632; background:rgba(245,166,50,0.06); }
+.burger-group-toggle i { color:#f5a632; transition:transform 0.3s; font-size:12px; }
+.burger-group.open .burger-group-toggle i { transform:rotate(180deg); }
+.burger-group-links { display:none; padding:0 0 8px; }
+.burger-group.open .burger-group-links { display:block; }
+.burger-group-links a { display:block; padding:11px 22px 11px 34px; color:rgba(255,255,255,0.7); text-decoration:none; font-size:var(--fs-meta); transition:all 0.2s; border-left:3px solid transparent; }
+.burger-group-links a:hover { color:#f5a632; background:rgba(245,166,50,0.06); border-left-color:#f5a632; }
+.burger-direct { display:block; padding:16px 22px; color:#fff; text-decoration:none; font-size:var(--fs-meta); font-weight:700; letter-spacing:0.5px; transition:all 0.2s; }
+.burger-direct:hover { color:#f5a632; background:rgba(245,166,50,0.06); }
+@media (max-width:768px) { .awards-subnav { display:none !important; } .burger-wrap { display:block !important; } .awards-subnav-bar { display:flex !important; } }
+/* ===== MERGED TOP BAR (burger + nav links, one bar) ===== */
+.awards-subnav-bar { display:flex !important; align-items:center; justify-content:space-between; gap:16px; padding:8px 3%; background:#011c3a; border-bottom:2px solid #f5a632; position:sticky; top:0; z-index:9999; }
+.awards-subnav-bar .bar-title { color:#f5a632; font-weight:800; letter-spacing:1px; font-size:var(--fs-meta); text-transform:uppercase; }
+.awards-subnav-bar .awards-subnav { display:block !important; background:transparent; border-bottom:none; padding:0; width:auto; margin:0; flex:1; overflow-x:auto; }
+.awards-subnav-bar .awards-subnav>ul { display:flex; list-style:none; margin:0; padding:0; gap:0; }
+.awards-subnav-bar .awards-subnav-item>a { padding:14px 14px; }
+@media (max-width:1024px) { .awards-subnav-bar .awards-subnav { display:none !important; } }
 .awards-info { padding:78px 3%; width:100vw; margin-left:calc(-50vw + 50%); border-top:1px solid var(--token-border); }
 .awards-info--light { background:var(--token-bg); color:var(--token-text); }
 .awards-info--dark { background:#011c3a; color:#fff; border-top-color:rgba(255,255,255,0.12); }
@@ -189,13 +220,83 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 </style>
 </head>
 <body>
-<!-- REVIEW NAV -->
-<nav class="review-nav">
-<button onclick="showReviewPage('awards',this)" class="active">Awards Page</button>
-<button onclick="showReviewPage('winners2026',this)">2026 Winners</button>
-<button onclick="showReviewPage('articleYled',this)">Article: YLED</button>
-<button onclick="showReviewPage('articleEmpowervate',this)">Article: Empowervate</button>
-</nav>
+<!-- SHARED TOP MENU (visible on every view) -->
+<div class="awards-subnav-bar">
+  <span class="bar-title">Menu</span>
+  <div class="burger-wrap">
+    <button class="burger-btn" id="burgerBtn" aria-label="Open menu" aria-expanded="false" onclick="toggleBurger()">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="burger-panel" id="burgerPanel">
+      <a class="burger-direct" href="../index.html">Home</a>
+      <div class="burger-group">
+        <button class="burger-group-toggle" onclick="toggleBurgerGroup(this)">About <i class="fas fa-chevron-down"></i></button>
+        <div class="burger-group-links">
+          <a href="../index.html#page-about">About</a>
+          <a href="../index.html#page-history">Our history</a>
+          <a href="../index.html#page-team">Team</a>
+          <a href="../index.html#page-contact">Connect</a>
+        </div>
+      </div>
+      <div class="burger-group">
+        <button class="burger-group-toggle" onclick="toggleBurgerGroup(this)">Expertise <i class="fas fa-chevron-down"></i></button>
+        <div class="burger-group-links">
+          <a href="../index.html#page-expertise-advisory">Advisory</a>
+          <a href="../index.html#page-expertise-events">Events &amp; activation</a>
+          <a href="../index.html#page-expertise-pr-visibility">PR &amp; visibility</a>
+          <a href="../index.html#page-expertise-publishing">Publishing</a>
+        </div>
+      </div>
+      <div class="burger-group">
+        <button class="burger-group-toggle" onclick="toggleBurgerGroup(this)">Case studies <i class="fas fa-chevron-down"></i></button>
+        <div class="burger-group-links">
+          <a href="../index.html#page-case-studies">Case studies &amp; corporate impact</a>
+        </div>
+      </div>
+      <div class="burger-group">
+        <button class="burger-group-toggle" onclick="toggleBurgerGroup(this)">Programmes <i class="fas fa-chevron-down"></i></button>
+        <div class="burger-group-links">
+          <a href="../index.html#page-programs">Programmes overview</a>
+          <a href="../index.html#page-csi-indaba">CSI Indaba</a>
+          <a href="../index.html#page-csi-legacy-awards">CSI Awards</a>
+          <a href="../index.html#page-webinars">Webinars</a>
+          <a href="../index.html#page-matter-magazine">Magazines</a>
+        </div>
+      </div>
+      <div class="burger-group">
+        <button class="burger-group-toggle" onclick="toggleBurgerGroup(this)">Insights &amp; news <i class="fas fa-chevron-down"></i></button>
+        <div class="burger-group-links">
+          <a href="../index.html#page-executive-articles">Insights &amp; news</a>
+          <a href="../index.html#page-reports">Reports</a>
+        </div>
+      </div>
+      <div class="burger-group">
+        <button class="burger-group-toggle" onclick="toggleBurgerGroup(this)">Awards <i class="fas fa-chevron-down"></i></button>
+        <div class="burger-group-links">
+          <a href="#" onclick="showReviewPage('awards');return false;">CSI Legacy Awards (finalists)</a>
+          <a href="#" onclick="showReviewPage('winners2026');return false;">2026 Winners</a>
+          <a href="board-of-trustees.html">Board of Trustees</a>
+          <a href="meet-the-judges.html">Meet the Judges</a>
+        </div>
+      </div>
+      <div class="burger-group">
+        <button class="burger-group-toggle" onclick="toggleBurgerGroup(this)">Social responsibility <i class="fas fa-chevron-down"></i></button>
+        <div class="burger-group-links">
+          <a href="../index.html#page-social-responsibility">Social responsibility</a>
+        </div>
+      </div>
+      <a class="burger-direct" href="../index.html#page-contact">Connect</a>
+    </div>
+  </div>
+  <nav class="awards-subnav"><ul>
+<li class="awards-subnav-item"><a href="https://lastic56.github.io/index.html" target="_blank" rel="noopener">Home</a></li>
+<li class="awards-subnav-item"><a href="#">The awards <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#">About the awards</a><a href="#">Award categories</a><a href="#">Judging criteria</a><a href="#">Nomination process</a><a href="board-of-trustees.html">Meet the Judges</a></div></li>
+<li class="awards-subnav-item"><a href="#">Winners &amp; finalists <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#" onclick="showReviewPage('winners2026');return false;">2026 winners</a><a href="#" onclick="showReviewPage('awards');return false;">All finalists (2027)</a><a href="#">2025 winners</a><a href="#">2024 winners</a></div></li>
+<li class="awards-subnav-item"><a href="#">Impact <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#">Impact reports</a><a href="#">CSI in numbers</a><a href="#">Case studies</a><a href="#">Sector insights</a></div></li>
+<li class="awards-subnav-item"><a href="#">Partners <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#">Corporate partners</a><a href="#">Media partners</a><a href="#">Become a partner</a></div></li>
+<li class="awards-subnav-item"><a href="https://lastic56.github.io/Awards2027/#page-contact" target="_blank" rel="noopener">Get involved</a></li>
+</ul></nav>
+</div>
 <!-- ===== PAGE 1: AWARDS ===== -->
 <div id="review-awards" class="review-page active">
 <!-- ANNOUNCEMENT POPUP -->
@@ -225,17 +326,8 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 <a class="f-stage" id="f-stage-4" href="#awards-dates" onclick="closeFlyoutAndScroll(this, event); return false;"><div class="f-num" id="f-num-4">04</div><div><span class="f-date">1 &ndash; 15 Feb 2027</span><h5>Judging &mdash; Phase 2</h5><p>Phase 2 judging begins and closes. Ceremony 25 Feb 2027.</p></div></a>
 </div></div>
 </div>
-<!-- SUB NAV -->
-<div class="awards-subnav"><ul>
-<li class="awards-subnav-item"><a href="../index.html">Home</a></li>
-<li class="awards-subnav-item"><a href="#">The awards <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#">About the awards</a><a href="#">Award categories</a><a href="#">Judging criteria</a><a href="#">Nomination process</a><a href="board-of-trustees.html">Meet the Judges</a></div></li>
-<li class="awards-subnav-item"><a href="#">Winners &amp; finalists <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#">2026 winners</a><a href="#">2025 winners</a><a href="#">2024 winners</a><a href="#">All finalists</a></div></li>
-<li class="awards-subnav-item"><a href="#">Impact <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#">Impact reports</a><a href="#">CSI in numbers</a><a href="#">Case studies</a><a href="#">Sector insights</a></div></li>
-<li class="awards-subnav-item"><a href="#">Partners <i class="fas fa-chevron-down chevron"></i></a><div class="awards-subnav-dropdown"><a href="#">Corporate partners</a><a href="#">Media partners</a><a href="#">Become a partner</a></div></li>
-<li class="awards-subnav-item"><a href="#page-contact" onclick="showContactPage();return false;">Get involved</a></li>
-</ul></div>
 <!-- HERO SLICES -->
-<div class="awards-hero-slices" id="awardsHeroSlider" style="width: 100vw; margin-left: calc(-50vw + 50%); height: 560px; overflow: hidden; background: #000; position: relative;">
+<div class="awards-hero-slices" id="awardsHeroSlider" style="width: 100vw; margin-left: calc(-50vw + 50%); height: 680px; overflow: hidden; background: #000; position: relative;">
 <div class="awards-hero-desktop" style="display: flex; width: 100%; height: 100%;">
 <div class="hero-slice-desktop" style="flex: 1; position: relative; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: block; background: linear-gradient(135deg, #011c3a, #0d3a63);"><img class="slice-img" src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/best-ngo.webp" alt="Best NGO" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;"><div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); z-index: 1;"></div><div style="position: absolute; bottom: 40px; left: 0; width: 100%; text-align: center; padding: 0 20px; z-index: 2; color: var(--token-bg);"><h3 style="margin: 0; font-size: clamp(15px, 1.4vw, 20px); font-weight: 700; color: #f5a632;">Best NGO</h3><p style="margin: 5px 0 0; color: #fff; font-size: 12px; font-weight: 600;">Who next?</p></div></div>
 <div class="hero-slice-desktop" style="flex: 1; position: relative; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: block; background: linear-gradient(135deg, #011c3a, #0d3a63);"><img class="slice-img" src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/best-rural.webp" alt="Best Rural" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;"><div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); z-index: 1;"></div><div style="position: absolute; bottom: 40px; left: 0; width: 100%; text-align: center; padding: 0 20px; z-index: 2; color: var(--token-bg);"><h3 style="margin: 0; font-size: clamp(15px, 1.4vw, 20px); font-weight: 700; color: #f5a632;">Best Rural</h3><p style="margin: 5px 0 0; color: #fff; font-size: 12px; font-weight: 600;">Who next?</p></div></div>
@@ -261,10 +353,10 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 <div class="awards-info-inner">
 <div class="awards-info-head"><span class="kicker" style="color: #f5a632;">Discover their stories</span><h2>The impact behind the accolades</h2><p>Go beyond the award &mdash; explore the programmes, people and partnerships that made each win possible.</p></div>
 <div style="margin-bottom: 48px;"><h3 style="font-family: var(--font-body); font-size: clamp(17px, 1.6vw, 22px); font-weight: 700; color: var(--token-text); margin: 0 0 22px; padding-bottom: 10px; border-bottom: 2px solid rgba(245,166,50,0.35);">Best NGO</h3><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;">
-<a href="article-breadline-africa.html" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80" alt="Breadline Africa NPC" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">Breadline Africa NPC</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">Johan Nel</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
-<a href="article-health-foundation.html" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80" alt="The Health Foundation of SA NPC" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">The Health Foundation of SA NPC</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">Harry Grainger</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
-<a href="article-red-cross.html" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&q=80" alt="The South African Red Cross Society" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">The South African Red Cross Society</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">Ireen Mutombwa</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
-<a href="#" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&q=80" alt="" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">Teddy Bear Clinic</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">QuickByte Media</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
+<a href="#" onclick="showReviewPage('articleBreadline');return false;" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/JOHAN-NELL.webp" alt="Breadline Africa NPC" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">Breadline Africa NPC</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">Johan Nel</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
+<a href="#" onclick="showReviewPage('articleHealthFoundation');return false;" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/B-HARRYest_NGO_04.webp" alt="The Health Foundation of SA NPC" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">The Health Foundation of SA NPC</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">Harry Grainger</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
+<a href="#" onclick="showReviewPage('articleRedCross');return false;" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/IRENE-BEST-NGO.webp" alt="The South African Red Cross Society" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">The South African Red Cross Society</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">Ireen Mutombwa</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
+<a href="#" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/OMAR-Best_NGO_01.webp" alt="Teddy Bear Clinic" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best NGO</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">Teddy Bear Clinic</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">QuickByte Media</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
 </div></div>
 <div style="margin-bottom: 48px;"><h3 style="font-family: var(--font-body); font-size: clamp(17px, 1.6vw, 22px); font-weight: 700; color: var(--token-text); margin: 0 0 22px; padding-bottom: 10px; border-bottom: 2px solid rgba(245,166,50,0.35);">Best Rural Community Project</h3><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;">
 <a href="article-thanda.html" style="display: block; background: var(--token-bg); border: 1px solid var(--token-border); border-radius: 14px; overflow: hidden; text-decoration: none;"><img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&q=80" alt="Thanda" style="width: 100%; height: 200px; object-fit: cover;"><div style="padding: 22px;"><span style="display: inline-block; font-size: var(--fs-meta); font-weight: var(--fw-meta); color: #f5a632; text-transform: uppercase; margin-bottom: 8px;">Best Rural Community Project</span><h4 style="font-size: var(--fs-card); font-weight: var(--fw-primary); color: var(--token-text); margin: 0 0 8px; min-height: 2.5em; line-height: 1.25;">Thanda</h4><p style="font-size: var(--fs-body); line-height: 1.6; color: var(--token-text-muted); margin: 0;">Angela Larkan</p><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632; margin-top: 12px;">Read story <i class="fas fa-arrow-right"></i></span></div></a>
@@ -363,7 +455,7 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 <p style="line-height: 1.6; margin: 12px 0 0; font-weight: 500; max-width: 700px;">Meet the trailblazers who are shaping South Africa's social investment landscape &mdash; and discover the stories behind their impact.</p>
 </div>
 <!-- 5 WINNER HERO CARDS -->
-<div style="width: 100vw; margin-left: calc(-50vw + 50%); height: 560px; overflow: hidden; background: #000; position: relative;">
+<div style="width: 100vw; margin-left: calc(-50vw + 50%); height: 65vh; min-height: 500px; overflow: hidden; background: #000; position: relative;">
 <div style="display: flex; width: 100%; height: 100%;">
 <a href="#" class="hero-slice-desktop" style="flex: 1; position: relative; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: block;"><img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/09/Oceana-Grpu-.png" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.6s ease;" alt="Oceana"><div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); z-index: 1;"></div><div style="position: absolute; bottom: 40px; left: 0; width: 100%; text-align: center; padding: 0 20px; z-index: 2; color: #fff;"><h3 style="margin: 0; font-weight: var(--fw-section);">Oceana<br>Group</h3><p style="margin: 5px 0 0; color: #f5a632;">Best Corporate</p><div class="slice-info"><p class="slice-desc" style="margin: 0 auto 12px; max-width: 340px; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.85);">Empowering Small-Scale Fishing Communities</p><span class="slice-cta" style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632;">View story <i class="fas fa-arrow-right"></i></span></div></div></a>
 <a href="#" class="hero-slice-desktop" style="flex: 1; position: relative; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: block;"><img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/09/Martin-Portrait.png" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.6s ease;" alt="Primestars"><div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); z-index: 1;"></div><div style="position: absolute; bottom: 40px; left: 0; width: 100%; text-align: center; padding: 0 20px; z-index: 2; color: #fff;"><h3 style="margin: 0; font-weight: var(--fw-section);">Primestars<br>South Africa</h3><p style="margin: 5px 0 0; color: #f5a632;">Best CEO</p><div class="slice-info"><p class="slice-desc" style="margin: 0 auto 12px; max-width: 340px; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.85);">Bringing Theatres of Learning to Youth</p><span class="slice-cta" style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #f5a632;">View story <i class="fas fa-arrow-right"></i></span></div></div></a>
@@ -463,8 +555,8 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
     </div>
 <!-- ===== PAGE 3: ARTICLE — YLED ===== -->
 <div id="review-articleYled" class="review-page">
-<div style="width:100vw;margin-left:calc(-50vw + 50%);min-height:360px;background:linear-gradient(135deg,#011c3a 0%,#0d3a63 100%);display:flex;align-items:center;position:relative;overflow:hidden;">
-<div style="width:100%;max-width:1100px;margin:0 auto;padding:60px 3%;">
+<div style="width:100vw;margin-left:calc(-50vw + 50%);background:linear-gradient(135deg,rgba(1,28,58,0.85),rgba(13,58,99,0.85)),url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80') center/cover;display:flex;align-items:center;position:relative;overflow:hidden;">
+<div style="width:100%;max-width:1100px;margin:0 auto;padding:50px 3%;">
 <span style="display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-meta);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f5a632;margin-bottom:20px;">2027 CSI Legacy Awards &middot; Finalist</span>
 <h1 style="font-size:clamp(30px,4.5vw,52px);line-height:1.12;margin:0;color:#fff;font-weight:800;letter-spacing:-0.02em;max-width:900px;">Empowering the Next Generation: Youth Leadership and Entrepreneurship Development</h1>
 <div style="margin-top:18px;color:#f5a632;font-size:var(--fs-lead);font-weight:700;">Youth Leadership &amp; Entrepreneurship Development (YLED) &mdash; Best Rising NGO</div>
@@ -499,8 +591,8 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 </div>
 <!-- ===== PAGE 4: ARTICLE — EMPOWERVATE ===== -->
 <div id="review-articleEmpowervate" class="review-page">
-<div style="width:100vw;margin-left:calc(-50vw + 50%);min-height:360px;background:linear-gradient(135deg,#011c3a 0%,#0d3a63 100%);display:flex;align-items:center;position:relative;overflow:hidden;">
-<div style="width:100%;max-width:1100px;margin:0 auto;padding:60px 3%;">
+<div style="width:100vw;margin-left:calc(-50vw + 50%);background:linear-gradient(135deg,rgba(1,28,58,0.85),rgba(13,58,99,0.85)),url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1600&q=80') center/cover;display:flex;align-items:center;position:relative;overflow:hidden;">
+<div style="width:100%;max-width:1100px;margin:0 auto;padding:50px 3%;">
 <span style="display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-meta);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f5a632;margin-bottom:20px;">2027 CSI Legacy Awards &middot; Finalist</span>
 <h1 style="font-size:clamp(30px,4.5vw,52px);line-height:1.12;margin:0;color:#fff;font-weight:800;letter-spacing:-0.02em;max-width:900px;">Empowering Young Change-Makers: Empowervate</h1>
 <div style="margin-top:18px;color:#f5a632;font-size:var(--fs-lead);font-weight:700;">Empowervate &mdash; Best Rising NGO</div>
@@ -533,12 +625,120 @@ body { background:var(--token-bg-soft); color:var(--token-text); font-size:var(-
 </div>
 </div>
 </div>
+<!-- ===== ARTICLE — BREADLINE AFRICA ===== -->
+<div id="review-articleBreadline" class="review-page">
+<div style="width:100vw;margin-left:calc(-50vw + 50%);height:80vh;position:relative;overflow:hidden;">
+<img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/JOHAN-NELL.webp" alt="Breadline Africa NPC" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+<div style="position:absolute;bottom:12%;left:5%;background:#fff;padding:24px 32px;border-radius:16px;max-width:55%;box-shadow:0 20px 60px rgba(0,0,0,0.18);z-index:2;">
+<span style="display:inline-block;font-family:'Raleway',Helvetica,Arial,sans-serif;font-size:var(--fs-meta);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f5a632;margin-bottom:10px;">Best NGO &middot; 2027 Finalist</span>
+<h1 style="font-family:'Raleway',Helvetica,Arial,sans-serif;font-size:32px !important;line-height:1.4 !important;color:#111 !important;margin:0 !important;font-weight:700 !important;text-align:left;">Building Safer Schools &amp; Brighter<br>Futures: Breadline Africa</h1>
+</div></div>
+<div style="max-width:1000px;margin:0 auto;padding:60px 3%;">
+<div style="display:grid;grid-template-columns:280px 1fr;gap:50px;align-items:start;">
+<aside>
+<div style="width:60px;height:4px;background:#f5a632;border-radius:2px;margin-bottom:20px;"></div>
+<h2 style="font-size:var(--fs-section);font-weight:700;color:var(--token-text);margin:0 0 14px;">About this finalist</h2>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Category</strong>Best NGO</div>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Representative</strong>Johan Nel</div>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Edition</strong>2027 CSI Legacy Awards</div>
+</aside>
+<article>
+<p style="font-size:var(--fs-lead);line-height:1.7;color:#111;margin:0 0 22px;">Breadline Africa NPC, a South African non-profit organisation dedicated to improving educational infrastructure in under-resourced communities, has been named a finalist in the 2027 CSI Legacy Awards in the Best NGO category. The recognition highlights more than three decades of work creating safer, healthier and more dignified learning environments for children, with a particular focus on addressing the urgent need for safe sanitation in schools across South Africa.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Founded in 1993, Breadline Africa works to ensure that children have access to the basic infrastructure needed to learn, develop and reach their full potential. Operating across all nine provinces, the organisation partners with school governing bodies, provincial education departments and local contractors to deliver essential facilities to low-quintile schools and early childhood development (ECD) centres. Its projects include classrooms, libraries, kitchens and sanitation facilities, addressing some of the fundamental inequalities that affect children's access to quality education.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Its current national priority is the Safe Sanitation Programme, launched in 2023 following the tragic death of a child who fell into a school pit latrine. The incident highlighted a devastating reality: thousands of South African schools continue to rely on unsafe pit toilets that are full, deteriorating or at risk of collapse. Beyond the immediate danger to children's lives, inadequate sanitation affects their health, dignity and ability to participate fully in education. Girls may miss school during menstruation, while learners with disabilities can face additional barriers to accessing facilities that are not designed to accommodate their needs.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Through the Safe Sanitation Programme, Breadline Africa is working to replace dangerous pit toilets with safe, hygienic and accessible sanitation facilities. The initiative recognises that sanitation is not simply an infrastructure issue, but a fundamental educational right. By providing appropriate facilities and implementing rigorous monitoring processes, the organisation aims to create school environments where children can learn without compromising their safety or dignity.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Leading this work is Johan Nel, whose commitment to educational infrastructure stems from witnessing first-hand the conditions in which many South African children are expected to learn. For Nel, the importance of the organisation's work lies in understanding that the physical environment in which a child receives an education can profoundly influence their future. Having visited schools where learners must effectively choose between their safety and their education, he believes that providing essential infrastructure is one of the most meaningful and enduring contributions an organisation can make.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Under his leadership, Breadline Africa has experienced significant growth. In 2014, the organisation had an annual income of approximately R20 million and had completed around 250 projects. Today, its annual income exceeds R100 million, with more than 2,500 completed projects benefiting 358,408 children and community members. This growth has enabled the organisation to expand its reach and respond to increasingly urgent infrastructure needs.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">The Safe Sanitation Programme has already delivered encouraging results, with 1,045 safe toilets installed, reaching more than 18,777 learners and staff. Another defining moment in the organisation's history came during the COVID-19 pandemic, when school closures left many vulnerable families without access to essential support. Breadline Africa adapted its operations to provide emergency food relief, demonstrating its ability to respond to changing community needs while remaining committed to its wider mission.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">For Nel, one of the most significant aspects of Breadline Africa's work is its lasting impact. Unlike many interventions that require ongoing delivery, infrastructure can continue serving communities for decades. Every classroom, library and safe toilet represents an investment in future generations, including children the organisation may never meet.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Being named a finalist in the 2027 CSI Legacy Awards is therefore a meaningful milestone for Breadline Africa. After more than 30 years of sustained work, the recognition affirms the dedication of its team, partners and the communities it serves. It also provides an opportunity to strengthen advocacy for safe school environments, dignified sanitation and quality early learning as national priorities.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0;">Ultimately, Breadline Africa's work demonstrates that meaningful educational transformation begins with getting the foundations right. By addressing the infrastructure challenges that prevent children from learning safely, the organisation is helping create an environment in which every child has the opportunity to thrive. Its nomination celebrates a legacy built not for recognition, but through the collective effort of those committed to making education safer and more accessible for all.</p>
+</article>
+</div>
+<div style="display:flex;gap:24px;align-items:flex-start;border-top:1px solid var(--token-border);margin-top:40px;padding-top:40px;">
+<img src="https://secure.gravatar.com/avatar/5c4f7d314b1333a63f1f505274fed38df3f9317a1cfd3722aba48a88a738a663?s=200&amp;d=mm&amp;r=g" alt="Simphiwe Mtetwa" style="width:80px;height:80px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+<div><h2 style="font-size:var(--fs-section);font-weight:700;color:var(--token-text);margin:0 0 8px;">Simphiwe Mtetwa</h2><p style="font-size:var(--fs-body);color:var(--token-muted);line-height:1.7;margin:0;">Simphiwe Mtetwa is South Africa's leading Corporate Social Responsibility news, media and publishing firm. We create content on social responsibility, helping government, corporates, consultants, NPOs and NGOs reach their target markets through appropriate, targeted development news.</p></div>
+</div>
+</div>
+</div>
+<!-- ===== ARTICLE — HEALTH FOUNDATION ===== -->
+<div id="review-articleHealthFoundation" class="review-page">
+<div style="width:100vw;margin-left:calc(-50vw + 50%);height:80vh;position:relative;overflow:hidden;">
+<img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/B-HARRYest_NGO_04.webp" alt="The Health Foundation of SA NPC" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+<div style="position:absolute;bottom:12%;left:5%;background:#fff;padding:24px 32px;border-radius:16px;max-width:55%;box-shadow:0 20px 60px rgba(0,0,0,0.18);z-index:2;">
+<span style="display:inline-block;font-family:'Raleway',Helvetica,Arial,sans-serif;font-size:var(--fs-meta);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f5a632;margin-bottom:10px;">Best NGO &middot; 2027 Finalist</span>
+<h1 style="font-family:'Raleway',Helvetica,Arial,sans-serif;font-size:32px !important;line-height:1.4 !important;color:#111 !important;margin:0 !important;font-weight:700 !important;text-align:left;">Strengthening South Africa's Health<br>and Social Systems: The Health<br>Foundation of South Africa</h1>
+</div></div>
+<div style="max-width:1000px;margin:0 auto;padding:60px 3%;">
+<div style="display:grid;grid-template-columns:280px 1fr;gap:50px;align-items:start;">
+<aside>
+<div style="width:60px;height:4px;background:#f5a632;border-radius:2px;margin-bottom:20px;"></div>
+<h2 style="font-size:var(--fs-section);font-weight:700;color:var(--token-text);margin:0 0 14px;">About this finalist</h2>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Category</strong>Best NGO</div>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Representative</strong>Harry Grainger</div>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Edition</strong>2027 CSI Legacy Awards</div>
+</aside>
+<article>
+<p style="font-size:var(--fs-lead);line-height:1.7;color:#111;margin:0 0 22px;">The Health Foundation of South Africa (THF), an independent non-profit organisation dedicated to strengthening healthcare and social services, has been named a finalist in the 2027 CSI Legacy Awards in the Best NGO category. The recognition celebrates the Foundation's distinctive approach to creating sustainable social impact by bringing together government, donors, civil society and implementing organisations to address some of South Africa's most pressing health and social development challenges.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Established in 2011 as an independent non-profit company and public benefit organisation, THF recognises that meaningful, lasting change requires more than financial investment. It requires effective partnerships, responsible resource management and strong institutions capable of translating funding into measurable outcomes. The Foundation occupies an important position between funding, strategy and implementation, helping organisations and public-sector partners deliver programmes effectively and sustainably.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Through resource mobilisation, financial oversight, sound governance, strategic guidance and stakeholder engagement, THF creates an enabling environment in which health and social development initiatives can succeed. Its work extends beyond providing funding, focusing instead on strengthening the systems, relationships and accountability structures that allow programmes to deliver lasting benefits.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Leading this work is Chief Executive Officer Harry Grainger, whose passion for the non-profit sector is rooted in a belief that health and wellness are fundamental to human potential. With many years of experience in the sector, Grainger is driven by the opportunity to bring people, resources and partnerships together to improve lives and strengthen communities. Having joined the Foundation more than a decade ago, he has played an important role in rebuilding the organisation, developing long-standing relationships and expanding its partnerships across the health and social development sectors.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">One of THF's most significant contributions is its support of Save7, a national initiative addressing South Africa's critical shortage of organ donors. Through strategic guidance, governance oversight and relationship-building, THF has helped support the initiative's development and expansion. Save7's awareness campaigns have reached more than 10 million people, established six branches and mobilised over 400 volunteers. The initiative has also advanced innovative solutions, including the Kidney Exchange and Patient Support Architecture, aimed at improving support and outcomes for kidney patients.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Another important initiative is the Scaling Use of Data project, funded by the Gates Foundation. Working with provincial and City health departments in the Western Cape, the project promotes the use of routine healthcare data to improve tuberculosis (TB) and HIV outcomes. By helping healthcare managers and frontline teams identify service delivery gaps and make evidence-based decisions, the initiative strengthens healthcare management and supports improved patient care. THF acts as a funding conduit and programme partner, ensuring donor investment remains aligned with public-sector priorities and accountable management practices.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">The Foundation has also extended its work into social development through its partnership with the Western Cape Department of Social Development to establish the Cape Care Fund. The initiative provides a transparent mechanism through which donors can support vetted organisations delivering essential community services. THF has contributed to the Fund's development by mobilising donor participation, strengthening partnerships and establishing responsible resource management processes.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Further demonstrating its commitment to evidence-informed development is the Cape Town Systemic Healthcare Action Research Project (C-SHARP), a node of the South African Population Research Infrastructure Network (SAPRIN). Since 2023, the project has assessed more than 30,000 households and registered over 100,000 individuals in Nomzamo and Bishop Lavis. This longitudinal data provides valuable insight into community health, social and economic conditions, supporting better-informed decisions, policy development and resource allocation.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">For Grainger, being named a finalist in the CSI Legacy Awards is an honour and an affirmation of the Foundation's approach. It recognises the importance of collaboration and responsible stewardship while strengthening the confidence of existing and prospective donors and partners.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0;">As THF continues to expand its partnerships and initiatives, its focus remains on turning investment into sustainable public value. Its nomination in the Best NGO category celebrates an organisation whose impact is not measured by a single programme, but by its ability to strengthen the institutions, partnerships and systems that make lasting change possible. Through its work, The Health Foundation of South Africa is helping build healthier, more empowered and resilient communities across the country.</p>
+</article>
+</div>
+<div style="display:flex;gap:24px;align-items:flex-start;border-top:1px solid var(--token-border);margin-top:40px;padding-top:40px;">
+<img src="https://secure.gravatar.com/avatar/5c4f7d314b1333a63f1f505274fed38df3f9317a1cfd3722aba48a88a738a663?s=200&amp;d=mm&amp;r=g" alt="Simphiwe Mtetwa" style="width:80px;height:80px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+<div><h2 style="font-size:var(--fs-section);font-weight:700;color:var(--token-text);margin:0 0 8px;">Simphiwe Mtetwa</h2><p style="font-size:var(--fs-body);color:var(--token-muted);line-height:1.7;margin:0;">Simphiwe Mtetwa is South Africa's leading Corporate Social Responsibility news, media and publishing firm. We create content on social responsibility, helping government, corporates, consultants, NPOs and NGOs reach their target markets through appropriate, targeted development news.</p></div>
+</div>
+</div>
+</div>
+<!-- ===== ARTICLE — RED CROSS ===== -->
+<div id="review-articleRedCross" class="review-page">
+<div style="width:100vw;margin-left:calc(-50vw + 50%);height:80vh;position:relative;overflow:hidden;">
+<img src="https://simphiwemtetwa.africa/wp-content/uploads/2026/11/IRENE-BEST-NGO.webp" alt="The South African Red Cross Society" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+<div style="position:absolute;bottom:12%;left:5%;background:#fff;padding:24px 32px;border-radius:16px;max-width:55%;box-shadow:0 20px 60px rgba(0,0,0,0.18);z-index:2;">
+<span style="display:inline-block;font-family:'Raleway',Helvetica,Arial,sans-serif;font-size:var(--fs-meta);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f5a632;margin-bottom:10px;">Best NGO &middot; 2027 Finalist</span>
+<h1 style="font-family:'Raleway',Helvetica,Arial,sans-serif;font-size:32px !important;line-height:1.4 !important;color:#111 !important;margin:0 !important;font-weight:700 !important;text-align:left;">Building Resilient Communities<br>Through Sustainable Humanitarian<br>Action: South African Red Cross<br>Society</h1>
+</div></div>
+<div style="max-width:1000px;margin:0 auto;padding:60px 3%;">
+<div style="display:grid;grid-template-columns:280px 1fr;gap:50px;align-items:start;">
+<aside>
+<div style="width:60px;height:4px;background:#f5a632;border-radius:2px;margin-bottom:20px;"></div>
+<h2 style="font-size:var(--fs-section);font-weight:700;color:var(--token-text);margin:0 0 14px;">About this finalist</h2>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Category</strong>Best NGO</div>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Representative</strong>Ireen Mutombwa</div>
+<div style="font-size:var(--fs-meta);color:var(--token-muted);margin:0 0 6px;"><strong style="color:#f5a632;display:block;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin-bottom:2px;">Edition</strong>2027 CSI Legacy Awards</div>
+</aside>
+<article>
+<p style="font-size:var(--fs-lead);line-height:1.7;color:#111;margin:0 0 22px;">The South African Red Cross Society (SARCS), a humanitarian organisation dedicated to preventing and alleviating human suffering, has been named a finalist in the 2027 CSI Legacy Awards in the Best NGO category. The recognition celebrates its commitment to supporting vulnerable communities, strengthening disaster resilience and introducing sustainable humanitarian solutions that address both immediate needs and the underlying challenges facing communities across South Africa.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Guided by the Fundamental Principles of the International Red Cross and Red Crescent Movement, SARCS provides essential humanitarian services, including disaster preparedness and response, health and community care, first aid training and assistance to people affected by emergencies. Its work also incorporates Mental Health and Psychosocial Support (MHPSS), recognising that recovery from hardship involves more than meeting physical needs. Supporting emotional wellbeing, restoring dignity and helping individuals cope with trauma are equally important in building healthy and resilient communities.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Among the initiatives highlighted in its CSI Legacy Awards submission is its commitment to a green humanitarian response, an approach that connects environmental sustainability, access to essential services and human dignity. Recognising that vulnerable communities are often disproportionately affected by climate-related challenges, unreliable infrastructure and limited access to basic resources, SARCS is working to introduce sustainable interventions that strengthen community resilience while improving everyday living conditions.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Through initiatives such as solar-powered boreholes and household solar kits, the organisation helps communities access safe water and reliable energy while reducing dependence on costly and unsustainable energy sources. These interventions are particularly valuable in areas where communities face disruptions to essential services, whether as a result of disasters, infrastructure challenges or economic hardship.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Solar-powered boreholes provide a more sustainable means of accessing water, supporting household needs and improving community wellbeing. Meanwhile, household solar kits offer families access to reliable energy, helping them maintain essential daily activities and reducing their vulnerability when conventional energy sources are unavailable. By combining these practical solutions with community engagement and inclusive approaches, SARCS is demonstrating how humanitarian assistance can contribute to longer-term development rather than simply responding to immediate crises.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">Driving this work is Ireen Mutombwa, whose passion for humanitarian services is rooted in the opportunity to make a meaningful difference in the lives of people experiencing hardship and uncertainty. Through her work with SARCS, she has witnessed the importance of timely assistance, effective disaster response and psychosocial support in helping individuals and families recover, rebuild and regain hope.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">For Mutombwa, some of the most meaningful achievements have been those that extend beyond immediate relief. Supporting disaster-affected families, contributing to MHPSS initiatives and helping implement sustainable interventions have demonstrated the importance of addressing the interconnected needs of vulnerable communities. Seeing people gain access to safe water, reliable energy and emotional support reinforces her belief that everyone deserves dignity, assistance and the opportunity to thrive, regardless of their circumstances.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">The organisation's approach reflects a broader understanding of resilience: communities must not only be supported during emergencies but also equipped with the resources and capabilities to withstand future challenges. By integrating environmental sustainability, psychosocial wellbeing and community participation into its humanitarian work, SARCS is helping create stronger foundations for recovery and long-term stability.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0 0 22px;">For Mutombwa and the wider organisation, being named a finalist in the 2027 CSI Legacy Awards is an honour and recognition of the collective dedication of its staff, volunteers, partners and the communities they serve. The nomination also provides an opportunity to highlight the importance of sustainable humanitarian action and encourage further collaboration across the sector.</p>
+<p style="font-size:var(--fs-body);line-height:1.85;color:#222;margin:0;">Ultimately, the South African Red Cross Society's work demonstrates that humanitarian assistance is about more than responding when disaster strikes. It is about protecting dignity, strengthening resilience and ensuring communities have the support and resources they need to build a more secure future. Through its green humanitarian initiatives and continued commitment to vulnerable populations, SARCS is helping create lasting change across South Africa.</p>
+</article>
+</div>
+<div style="display:flex;gap:24px;align-items:flex-start;border-top:1px solid var(--token-border);margin-top:40px;padding-top:40px;">
+<img src="https://secure.gravatar.com/avatar/5c4f7d314b1333a63f1f505274fed38df3f9317a1cfd3722aba48a88a738a663?s=200&amp;d=mm&amp;r=g" alt="Simphiwe Mtetwa" style="width:80px;height:80px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+<div><h2 style="font-size:var(--fs-section);font-weight:700;color:var(--token-text);margin:0 0 8px;">Simphiwe Mtetwa</h2><p style="font-size:var(--fs-body);color:var(--token-muted);line-height:1.7;margin:0;">Simphiwe Mtetwa is South Africa's leading Corporate Social Responsibility news, media and publishing firm. We create content on social responsibility, helping government, corporates, consultants, NPOs and NGOs reach their target markets through appropriate, targeted development news.</p></div>
+</div>
+</div>
+</div>
 <script>
 function showReviewPage(id, btn) {
 document.querySelectorAll('.review-page').forEach(function(p){ p.classList.remove('active'); });
 document.querySelectorAll('.review-nav button').forEach(function(b){ b.classList.remove('active'); });
 document.getElementById('review-' + id).classList.add('active');
-btn.classList.add('active');
+if(btn) btn.classList.add('active');
 window.scrollTo(0,0);
 }
 /* ===== COUNTDOWN ===== */
@@ -579,6 +779,26 @@ function initAnnounce() { if (!backdrop) return; backdrop.addEventListener('clic
 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initAnnounce); } else { initAnnounce(); }
 })();
 function showContactPage() { alert('This would navigate to the contact page in the full site.'); }
+function toggleBurger() {
+  var btn = document.getElementById('burgerBtn');
+  var panel = document.getElementById('burgerPanel');
+  var open = panel.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function toggleBurgerGroup(btn) {
+  var group = btn.parentElement;
+  group.classList.toggle('open');
+}
+document.addEventListener('click', function(e){
+  var wrap = document.querySelector('.burger-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    var panel = document.getElementById('burgerPanel');
+    var btn = document.getElementById('burgerBtn');
+    if (panel) panel.classList.remove('open');
+    if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  }
+});
 </script>
 </body>
 </html>
